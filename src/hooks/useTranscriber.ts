@@ -44,6 +44,10 @@ export interface Transcriber {
     setSubtask: (subtask: string) => void;
     language?: string;
     setLanguage: (language: string) => void;
+    chunkLength: number;
+    setChunkLength: (chunkLength: number) => void;
+    overlapLength: number;
+    setOverlapLength: (overlapLength: number) => void;
 }
 
 export function useTranscriber(): Transcriber {
@@ -122,6 +126,8 @@ export function useTranscriber(): Transcriber {
     const [language, setLanguage] = useState<string>(
         Constants.getDefaultLanguage(i18n.language),
     );
+    const [chunkLength, setChunkLength] = useState<number>(Constants.DEFAULT_CHUNK_LENGTH);
+    const [overlapLength, setOverlapLength] = useState<number>(Constants.DEFAULT_OVERLAP_LENGTH);
 
     useEffect(() => {
         setModel(Constants.getDefaultModel(i18n.language));
@@ -164,10 +170,12 @@ export function useTranscriber(): Transcriber {
                         !model.endsWith(".en") && language !== "auto"
                             ? language
                             : null,
+                    chunkLength,
+                    overlapLength,
                 });
             }
         },
-        [webWorker, model, dtype, gpu, subtask, language],
+        [webWorker, model, dtype, gpu, subtask, language, chunkLength, overlapLength],
     );
 
     const transcriber = useMemo(() => {
@@ -188,6 +196,10 @@ export function useTranscriber(): Transcriber {
             setSubtask,
             language,
             setLanguage,
+            chunkLength,
+            setChunkLength,
+            overlapLength,
+            setOverlapLength,
         };
     }, [
         onInputChange,
@@ -201,6 +213,8 @@ export function useTranscriber(): Transcriber {
         gpu,
         subtask,
         language,
+        chunkLength,
+        overlapLength,
     ]);
 
     return transcriber;

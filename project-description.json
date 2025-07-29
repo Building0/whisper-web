@@ -1,0 +1,189 @@
+{
+  "project": {
+    "name": "Whisper Web",
+    "version": "0.0.0",
+    "type": "browser-based-speech-transcription",
+    "description": "A web application that allows you to transcribe audio files to text completely locally in your web browser using OpenAI's Whisper models via Transformers.js",
+    "repository": {
+      "original": "https://github.com/xenova/whisper-web",
+      "current": "https://github.com/PierreMesure/whisper-web",
+      "fork_status": "actively maintained fork"
+    },
+    "live_demos": [
+      {
+        "url": "https://whisper-web.mesu.re",
+        "description": "Main application with multiple language support"
+      },
+      {
+        "url": "https://kb-whisper.mesu.re", 
+        "description": "Swedish-focused version using KB-Whisper models"
+      }
+    ]
+  },
+  "technology_stack": {
+    "frontend": {
+      "framework": "React 19.1.0",
+      "language": "TypeScript",
+      "build_tool": "Vite 6.3.5",
+      "styling": "Tailwind CSS 4.1.8",
+      "ui_components": "@headlessui/react"
+    },
+    "ai_ml": {
+      "core_library": "@huggingface/transformers 3.5.2",
+      "execution_backend": "WebAssembly (WASM) / WebGPU",
+      "model_format": "ONNX",
+      "processing": "Web Workers for non-blocking execution"
+    },
+    "internationalization": {
+      "library": "i18next",
+      "react_integration": "react-i18next",
+      "supported_languages": ["en", "sv", "no", "es"]
+    }
+  },
+  "core_features": {
+    "transcription": {
+      "local_processing": "Runs entirely in browser, no server required",
+      "real_time_streaming": "Continuous transcription rendering during processing",
+      "chunked_processing": "Audio split into overlapping chunks for efficient processing",
+      "timestamp_support": "Precise timestamps for each transcribed segment"
+    },
+    "audio_input": {
+      "file_upload": "Support for various audio formats",
+      "url_input": "Direct URL input for remote audio files",
+      "microphone_recording": "Real-time audio recording capability",
+      "stereo_to_mono": "Automatic stereo downmixing with proper scaling"
+    },
+    "model_support": {
+      "whisper_variants": [
+        "whisper-tiny", "whisper-base", "whisper-small", 
+        "whisper-medium", "whisper-large-v3-turbo"
+      ],
+      "specialized_models": {
+        "swedish": "KB-Whisper models (tiny, base, small, medium, large)",
+        "norwegian": "nb-whisper models (tiny, base, small)",
+        "english_only": "distil-small.en (optimized)"
+      },
+      "quantization_levels": ["fp32", "fp16", "q8", "int8", "uint8", "q4", "bnb4", "q4f16"],
+      "mobile_optimization": "Automatic tiny model selection for mobile devices"
+    },
+    "performance": {
+      "gpu_acceleration": "WebGPU support when available",
+      "cpu_fallback": "WebAssembly execution for CPU-only devices",
+      "progressive_loading": "Model files loaded with progress indicators",
+      "caching": "Browser caching for downloaded models"
+    },
+    "export_functionality": {
+      "srt_export": "Export transcriptions as SRT subtitle files",
+      "timestamp_formatting": "Proper SRT timestamp format (HH:MM:SS,mmm)"
+    },
+    "user_experience": {
+      "progressive_web_app": "PWA support for offline usage",
+      "responsive_design": "Mobile and desktop optimized",
+      "language_switching": "UI language selection",
+      "cache_management": "Clear model cache functionality",
+      "error_handling": "Comprehensive error reporting and recovery"
+    }
+  },
+  "supported_languages": {
+    "transcription": [
+      "english", "chinese", "german", "spanish", "russian", "korean", "french", 
+      "japanese", "portuguese", "turkish", "polish", "catalan", "dutch", "arabic", 
+      "swedish", "italian", "indonesian", "hindi", "finnish", "vietnamese", "hebrew", 
+      "ukrainian", "greek", "malay", "czech", "romanian", "danish", "hungarian", 
+      "tamil", "norwegian", "thai", "urdu", "croatian", "bulgarian", "lithuanian", 
+      "latin", "maori", "malayalam", "welsh", "slovak", "telugu", "persian", 
+      "latvian", "bengali", "serbian", "azerbaijani", "slovenian", "kannada", 
+      "estonian", "macedonian", "breton", "basque", "icelandic", "armenian", 
+      "nepali", "mongolian", "bosnian", "kazakh", "albanian", "swahili", "galician", 
+      "marathi", "punjabi", "sinhala", "khmer", "shona", "yoruba", "somali", 
+      "afrikaans", "occitan", "georgian", "belarusian", "tajik", "sindhi", 
+      "gujarati", "amharic", "yiddish", "lao", "uzbek", "faroese", "haitian", 
+      "pashto", "turkmen", "nynorsk", "maltese", "sanskrit", "luxembourgish", 
+      "myanmar", "tibetan", "tagalog", "malagasy", "assamese", "tatar", "hawaiian", 
+      "lingala", "hausa", "bashkir", "javanese", "sundanese"
+    ],
+    "ui_languages": ["en", "sv", "no", "es"]
+  },
+  "audio_processing": {
+    "sampling_rate": 16000,
+    "format": "Float32Array",
+    "channel_handling": {
+      "stereo": "Downmixed to mono using sqrt(2) scaling factor",
+      "mono": "Uses first channel directly"
+    },
+    "chunking": {
+      "regular_whisper": {
+        "chunk_length": "30 seconds",
+        "stride_length": "5 seconds overlap"
+      },
+      "distil_whisper": {
+        "chunk_length": "20 seconds", 
+        "stride_length": "3 seconds overlap"
+      }
+    }
+  },
+  "architecture": {
+    "main_thread": "React UI and state management",
+    "web_worker": "Model loading and transcription processing",
+    "communication": "PostMessage API for worker communication",
+    "state_management": "React hooks (useTranscriber, useWorker)",
+    "model_factory": "Singleton pattern for model instantiation"
+  },
+  "development": {
+    "build_system": "Vite with TypeScript compilation",
+    "code_quality": {
+      "linting": "ESLint with TypeScript support",
+      "formatting": "Prettier",
+      "type_checking": "TypeScript strict mode"
+    },
+    "development_server": "Vite dev server with HMR",
+    "scripts": {
+      "dev": "vite",
+      "build": "tsc -b && vite build", 
+      "lint": "eslint .",
+      "format": "prettier --write src/**/*.{js,ts,tsx,css}",
+      "preview": "vite preview"
+    }
+  },
+  "improvements_over_original": [
+    "Actively maintained with up-to-date dependencies",
+    "WebGPU and CPU execution options",
+    "More user-friendly interface",
+    "Multi-language UI support",
+    "Progressive Web App capabilities",
+    "Continuous transcription rendering",
+    "SRT export functionality",
+    "Expanded model selection including specialized language models",
+    "Configurable quantization levels",
+    "Cache management controls"
+  ],
+  "file_structure": {
+    "src/": {
+      "App.tsx": "Main application component",
+      "components/": "UI components (AudioManager, Transcript, etc.)",
+      "hooks/": "Custom React hooks (useTranscriber, useWorker)",
+      "utils/": "Utility functions (AudioUtils, Constants)",
+      "locale/": "Internationalization files",
+      "worker.js": "Web Worker for model processing"
+    },
+    "public/": "Static assets and example audio files",
+    "config_files": [
+      "vite.config.ts", "tailwind.config.js", "tsconfig.json", 
+      "eslint.config.js", "package.json"
+    ]
+  },
+  "usage_scenarios": [
+    "Podcast transcription",
+    "Meeting notes generation", 
+    "Interview transcription",
+    "Accessibility (audio to text conversion)",
+    "Content creation and editing",
+    "Language learning and analysis",
+    "Academic research transcription"
+  ],
+  "browser_compatibility": {
+    "requirements": ["WebAssembly support", "Web Workers", "Modern JavaScript"],
+    "optimal": ["WebGPU support for GPU acceleration"],
+    "mobile_support": "Optimized for mobile and tablet devices"
+  }
+}

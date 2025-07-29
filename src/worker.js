@@ -51,7 +51,7 @@ class AutomaticSpeechRecognitionPipelineFactory extends PipelineFactory {
     static gpu = false;
 }
 
-const transcribe = async ({ audio, model, dtype, gpu, subtask, language }) => {
+const transcribe = async ({ audio, model, dtype, gpu, subtask, language, chunkLength = 10, overlapLength = 0.5 }) => {
     const isDistilWhisper = model.startsWith("distil-whisper/");
 
     const p = AutomaticSpeechRecognitionPipelineFactory;
@@ -83,8 +83,8 @@ const transcribe = async ({ audio, model, dtype, gpu, subtask, language }) => {
     // TODO: Storage for fully-processed and merged chunks
     // let decoded_chunks = [];
 
-    const chunk_length_s = isDistilWhisper ? 20 : 30;
-    const stride_length_s = isDistilWhisper ? 3 : 5;
+    const chunk_length_s = chunkLength;
+    const stride_length_s = overlapLength;
 
     let chunk_count = 0;
     let start_time;

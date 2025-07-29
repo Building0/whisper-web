@@ -207,4 +207,6 @@ export default {
     DEFAULT_QUANTIZED: isMobileOrTablet,
     DEFAULT_DTYPE: "q8",
     DEFAULT_GPU: false,
+    DEFAULT_CHUNK_LENGTH: 10,
+    DEFAULT_OVERLAP_LENGTH: 0.5,
 };
