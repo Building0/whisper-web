@@ -93,12 +93,16 @@ const transcribe = async ({ audio, model, dtype, gpu, subtask, language, chunkLe
     const streamer = new WhisperTextStreamer(transcriber.tokenizer, {
         time_precision,
         on_chunk_start: (x) => {
+            // Calculate the time offset for this chunk based on sliding window progression
+            // Each chunk advances by (chunk_length - stride_length) to create overlap
             const offset = (chunk_length_s - stride_length_s) * chunk_count;
+            
+            // Create new chunk object with initial state
             chunks.push({
-                text: "",
-                timestamp: [offset + x, null],
-                finalised: false,
-                offset,
+                text: "",                    // Will be populated as transcription progresses
+                timestamp: [offset + x, null], // Start time set, end time will be set in on_chunk_end
+                finalised: false,            // Marks chunk as still being processed
+                offset,                      // Store offset for timestamp calculations
             });
         },
         token_callback_function: (x) => {

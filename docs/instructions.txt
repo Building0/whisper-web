@@ -25,7 +25,7 @@ RULES (violating ANY invalidates your response):
 ✅ Reference specific file paths
 ✅ Provide migration strategies
 
-Prompt: execute the plan in @docs/phase-1-chunking.md
+Prompt: add comments to `on_chunk_start` at src/worker.js
 
 FINAL REMINDER: If you suggest creating new files, explain why existing files cannot be extended. If you recommend rewrites, justify why refactoring won't work.
 🔍 STEP 2: ANALYZE CURRENT SYSTEM
